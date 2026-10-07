@@ -1,0 +1,37 @@
+{
+  "name": "arieya",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "node --experimental-strip-types --test test/core.test.ts",
+    "audit": "node --experimental-strip-types scripts/audit.ts",
+    "db:setup": "node --env-file-if-exists=.env.local --experimental-strip-types scripts/setup-db.ts",
+    "db:seed-demo": "node --env-file-if-exists=.env.local --experimental-strip-types scripts/seed-demo-merchant.ts",
+    "ops:check": "node --env-file-if-exists=.env.local --experimental-strip-types scripts/ops-check.ts",
+    "retention": "node --env-file-if-exists=.env.local --experimental-strip-types scripts/retention.ts",
+    "report": "node --experimental-strip-types scripts/report.ts",
+    "export:tenant": "node --experimental-strip-types scripts/export-tenant.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource/cormorant-garamond": "^5.3.0",
+    "@neon/config": "^1.3.0",
+    "@neon/env": "^1.2.1",
+    "lenis": "1.3.26",
+    "motion": "13.1.1",
+    "next": "16.3.3",
+    "postgres": "3.4.9",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "26.4.0",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
+    "typescript": "7.0.2"
+  }
+}

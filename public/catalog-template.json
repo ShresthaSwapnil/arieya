@@ -1,0 +1,74 @@
+[
+  {
+    "id": "solace-amber-pendant",
+    "title": "Solace Amber Pendant",
+    "description": "A slim warm-gold pendant with a softly glowing oval stone.",
+    "category": "necklace",
+    "priceMinor": 11800,
+    "currency": "GBP",
+    "available": true,
+    "material": "gold vermeil",
+    "color": "warm gold",
+    "gemstone": "amber crystal",
+    "styles": [
+      "elegant",
+      "understated",
+      "warm",
+      "delicate"
+    ],
+    "occasions": [
+      "anniversary",
+      "gift",
+      "evening"
+    ],
+    "url": "https://example.com/products/solace-amber-pendant"
+  },
+  {
+    "id": "halo-champagne-ring",
+    "title": "Halo Champagne Ring",
+    "description": "A fluid gold-vermeil ring with a pale champagne centre stone.",
+    "category": "ring",
+    "priceMinor": 11000,
+    "currency": "GBP",
+    "available": true,
+    "material": "gold vermeil",
+    "color": "warm gold",
+    "gemstone": "champagne crystal",
+    "styles": [
+      "elegant",
+      "sculptural",
+      "warm",
+      "refined"
+    ],
+    "occasions": [
+      "anniversary",
+      "gift",
+      "occasion"
+    ],
+    "url": "https://example.com/products/halo-champagne-ring"
+  },
+  {
+    "id": "pearl-line-bracelet",
+    "title": "Pearl Line Bracelet",
+    "description": "A fine warm-gold chain finished with one quiet cream pearl.",
+    "category": "bracelet",
+    "priceMinor": 9600,
+    "currency": "GBP",
+    "available": true,
+    "material": "gold vermeil",
+    "color": "warm gold",
+    "gemstone": "pearl",
+    "styles": [
+      "elegant",
+      "understated",
+      "warm",
+      "delicate"
+    ],
+    "occasions": [
+      "anniversary",
+      "gift",
+      "everyday"
+    ],
+    "url": "https://example.com/products/pearl-line-bracelet"
+  }
+]
