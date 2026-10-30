@@ -20,6 +20,9 @@
 # Keep the project docs; ignore other local Markdown notes and skill copies
 *.md
 !/README.md
+!/INTEGRATION-GUIDE.md
+!/context-for-ai.md
+!/PRODUCT-RESEARCH.md
 
 # Logs and operating-system files
 *.log

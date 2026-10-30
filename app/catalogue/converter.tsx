@@ -22,7 +22,7 @@ export function CatalogConverter() {
       if (file.size > 2_000_000) throw new Error("Choose a file under 2 MB.");
       const extension = file.name.toLowerCase().split(".").pop();
       if (extension !== "csv" && extension !== "json" && extension !== "xml") throw new Error("Choose a CSV, JSON, or XML product file.");
-      const rows = parseCatalogFile(await file.text(), extension, "GBP");
+      const rows = parseCatalogFile(await file.text(), extension, "USD");
       setProducts(rows);
       setNotice(file.name + " · " + rows.length + " products ready");
     } catch (error) {

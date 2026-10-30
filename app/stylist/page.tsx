@@ -22,6 +22,7 @@ export default async function StylistPage({
   if (requestedStore && !tenant) notFound();
   const store = tenant || { id: "tenant_demo", publicKey: "edita-demo", name: "Arieya", storeUrl: "", currency: "GBP", approvedOrigins: [], status: "preview" };
   const productId = typeof params.product === "string" ? params.product : "";
+  const isEmbed = params.embed === "true";
 
   let featuredProduct: Product | null = null;
   if (productId) {
@@ -42,6 +43,7 @@ export default async function StylistPage({
         initialProduct={featuredProduct}
         demoCategory={demoCatalog?.id}
         demoCatalogName={demoCatalog?.name}
+        isEmbed={isEmbed}
       />
     </main>
   );

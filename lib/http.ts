@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { TENANTS } from "./core";
 import { getTenantByPublicKey } from "./merchant.ts";
 import { consumeLimit, visitorKey } from "./trial";
+import { enforceRateLimit } from "./ratelimit.ts";
 
 export type Tenant = { id: string; publicKey: string; name: string; approvedOrigins: string[]; contactUrl: string; currency: string; status?: string; storeUrl?: string };
 export async function tenantFor(publicKey: unknown): Promise<Tenant | null> {
@@ -19,8 +20,9 @@ export function authorizeRequest(request: Request, tenant?: Tenant) {
     ...(tenant?.approvedOrigins || [])];
   return allowed.includes(origin);
 }
-export function rateLimit(request: Request, scope: string, limit = 30) {
-  return consumeLimit(`${scope}:${visitorKey(request)}`, limit);
+export async function rateLimit(request: Request, scope: string, limit = 30, windowSeconds = 60) {
+  const result = await enforceRateLimit(`${scope}:${visitorKey(request)}`, limit, windowSeconds);
+  return result.success;
 }
 export async function readJson(request: Request, maxBytes = 32_000): Promise<unknown> {
   if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) throw new Error("INVALID_JSON");
@@ -44,3 +46,4 @@ export const jsonError = (message: string, status: number) => NextResponse.json(
 export function boundedString(value: unknown, max: number, min = 0) {
   return typeof value === "string" && value.trim().length >= min && value.length <= max ? value.trim() : null;
 }
+export { normalizeStoreUrl } from "./catalog-format.ts";

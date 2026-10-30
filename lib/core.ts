@@ -238,6 +238,18 @@ const categoryAliases: [Category, RegExp][] = [
   ["earrings", /\b(earring|earrings|stud|studs|hoop|hoops)\b/i],
 ];
 
+export function buildCategoryAliases(products: Product[]): [Category, RegExp][] {
+  const dynamicAliases = [...new Set(products.map((p) => p.category).filter(Boolean))].map((category) => {
+    const base = category.endsWith("s") && category !== "earrings" ? category.slice(0, -1) : category;
+    return [category, new RegExp(`\\b(${base}|${base}s)\\b`, "i")] as [Category, RegExp];
+  });
+  const merged = [...categoryAliases];
+  for (const [cat, regex] of dynamicAliases) {
+    if (!merged.some((m) => m[0] === cat)) merged.push([cat, regex]);
+  }
+  return merged;
+}
+
 export function parseConstraints(message: string, products: Product[] = CATALOG): Constraints {
   const text = message.toLowerCase().replace(/,/g, "");
   const normalized = text.replace(/[^a-z0-9]+/g, " ").trim();
@@ -249,7 +261,9 @@ export function parseConstraints(message: string, products: Product[] = CATALOG)
   const exclusions = exclusionTerms.filter((term) => ["not ", "no ", "without ", "not an ", "not a "].some((prefix) => normalized.includes(prefix + term.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim())));
   const positiveText = normalized.replace(/\b(?:not|no|without)\s+(?:an?\s+)?/g, "");
   const positiveHasTerm = (term: string) => positiveText.includes(term.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim());
-  const category = categoryAliases.find(([, pattern]) => pattern.test(positiveText))?.[0]
+  
+  const currentCategoryAliases = buildCategoryAliases(products);
+  const category = currentCategoryAliases.find(([, pattern]) => pattern.test(positiveText))?.[0]
     || [...new Set(products.map((product) => product.category).filter((value) => value && value !== "general" && value.length > 2 && positiveHasTerm(value)))][0];
   const material = [...new Set(products.map((product) => product.material).filter((value): value is string => Boolean(value)))].sort((a, b) => b.length - a.length).find(positiveHasTerm);
   const color = [...new Set(products.map((product) => product.color).filter((value): value is string => Boolean(value)))].sort((a, b) => b.length - a.length).find(positiveHasTerm);
@@ -327,11 +341,20 @@ export function recommend(
     };
   }
 
-  if (/\b(?:platinum|titanium|diamonds?|rub(?:y|ies)|sapphire|solid gold|stainless steel|nickel.free)\b/i.test([...history.filter(t => t.role === "user").map(t => t.content), message].join(" "))) {
-    return { reply: "This trial cannot verify that material or gemstone. Try the supported catalogue details or confirm directly with the store.", products: [], status: "no_match", constraints: { exclusions: [] }, relaxedConstraints: [], relaxations: [] };
-  }
   const parsed = conversationConstraints(message, history, products);
   const constraints = { ...parsed, currency: parsed.currency || requestCurrency };
+  
+  const userText = [...history.filter(t => t.role === "user").map(t => t.content), message].join(" ");
+  const unsupportedMatch = /\b(platinum|titanium|diamonds?|rub(?:y|ies)|sapphire|solid gold|stainless steel|nickel\.free)\b/i.exec(userText);
+  if (unsupportedMatch) {
+    const term = unsupportedMatch[1].toLowerCase();
+    const available = products.flatMap(p => [p.material, p.gemstone].filter(Boolean)).map(s => s!.toLowerCase());
+    const isAvailable = available.some(a => a.includes(term.replace(/s$/, '')) || term.includes(a.replace(/s$/, '')));
+    if (!isAvailable) {
+      return { reply: "No products in this collection use that material or gemstone. Try the options available in this catalogue.", products: [], status: "no_match", constraints: { exclusions: [] }, relaxedConstraints: [], relaxations: [] };
+    }
+  }
+
   const words = new Set([...(message.toLowerCase().match(/[a-z]+/g) || []), ...softIntent.flatMap((tag) => tag.toLowerCase().match(/[a-z0-9]+/g) || [])]);
   const candidates = products.filter((product) => hardMatch(product, constraints));
 
@@ -352,8 +375,11 @@ export function recommend(
       }
     }
     if (constraints.gemstone) {
-      const alternative = constraints.gemstone === "pearl" ? "champagne" : "pearl";
-      relaxations.push({ key: "gemstone", label: "Try another gemstone", message: message.replace(new RegExp(constraints.gemstone.split(" ")[0], "i"), alternative) });
+      const availableGems = [...new Set(products.map(p => p.gemstone).filter((g): g is string => Boolean(g)))];
+      const alternative = availableGems.find(g => g !== constraints.gemstone);
+      if (alternative) {
+        relaxations.push({ key: "gemstone", label: "Try another gemstone", message: message.replace(new RegExp(constraints.gemstone.split(" ")[0], "i"), alternative) });
+      }
     }
     if (constraints.category) {
       relaxations.push({ key: "category", label: "Show another category", message: "Show any category" });

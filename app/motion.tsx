@@ -8,12 +8,13 @@ import { motion, useReducedMotion } from "motion/react";
 export function SmoothScroll({ children }: { children: ReactNode }) {
   const reduced = useReducedMotion();
   const pathname = usePathname();
-  if (reduced || pathname !== "/") return <>{children}</>;
+  const isDashboard = pathname?.startsWith("/merchant") || pathname?.startsWith("/stylist") || pathname?.startsWith("/e/");
+  if (reduced || isDashboard) return <>{children}</>;
   return (
     <ReactLenis
       root
       options={{
-        lerp: 0.3,
+        lerp: 0.1,
         anchors: true,
         autoRaf: true,
         smoothWheel: true,

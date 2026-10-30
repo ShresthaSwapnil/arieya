@@ -94,6 +94,59 @@ export async function replaceCatalog(tenantId: string, products: Product[]) {
   });
 }
 
+export async function overwriteCatalog(tenantId: string, products: Product[]) {
+  if (!sql) {
+    memory.catalogs.set(tenantId, products);
+    return;
+  }
+  await sql.begin(async (transaction) => {
+    await transaction`SELECT id FROM tenants WHERE id = ${tenantId} FOR UPDATE`;
+    await transaction`DELETE FROM catalog_products WHERE tenant_id = ${tenantId}`;
+    for (const product of products) {
+      await transaction`
+        INSERT INTO catalog_products (tenant_id, external_id, data, source_updated_at)
+        VALUES (${tenantId}, ${product.id}, ${transaction.json(product)}, now())
+      `;
+    }
+  });
+}
+
+export async function clearCatalog(tenantId: string): Promise<void> {
+  if (!sql) {
+    memory.catalogs.set(tenantId, []);
+    return;
+  }
+  await sql`DELETE FROM catalog_products WHERE tenant_id = ${tenantId}`;
+}
+
+export async function deleteProduct(tenantId: string, productId: string): Promise<boolean> {
+  if (!sql) {
+    const catalog = memory.catalogs.get(tenantId) || [];
+    const filtered = catalog.filter((p) => p.id !== productId);
+    if (filtered.length === catalog.length) return false;
+    memory.catalogs.set(tenantId, filtered);
+    return true;
+  }
+  const result = await sql`DELETE FROM catalog_products WHERE tenant_id = ${tenantId} AND external_id = ${productId} RETURNING external_id`;
+  return result.length > 0;
+}
+
+export async function updateProduct(tenantId: string, productId: string, updates: Partial<Product>): Promise<Product | null> {
+  if (!sql) {
+    const catalog = memory.catalogs.get(tenantId) || [];
+    const index = catalog.findIndex((p) => p.id === productId);
+    if (index === -1) return null;
+    catalog[index] = { ...catalog[index], ...updates, id: productId };
+    memory.catalogs.set(tenantId, catalog);
+    return catalog[index];
+  }
+  const [row] = await sql<{ data: Product }[]>`SELECT data FROM catalog_products WHERE tenant_id = ${tenantId} AND external_id = ${productId}`;
+  if (!row) return null;
+  const updated = { ...row.data, ...updates, id: productId };
+  await sql`UPDATE catalog_products SET data = ${sql.json(updated)}, synced_at = now() WHERE tenant_id = ${tenantId} AND external_id = ${productId}`;
+  return updated;
+}
+
 export async function createEdit(input: {
   tenantId: string;
   creatorSessionId: string;

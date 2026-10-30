@@ -39,6 +39,8 @@ Use separate Neon production and preview branches. Set the production deployment
 - `CRON_SECRET` — random secret used by the daily retention job.
 - `NEXT_PUBLIC_APP_ORIGIN` — canonical HTTPS origin, without a path.
 - `GEMINI_API_KEY` and `GEMINI_MODEL` — optional intent extraction; recommendations still use deterministic catalogue matching if the model is not configured.
+- `LEMONSQUEEZY_API_KEY`, `LEMONSQUEEZY_STORE_ID`, `LEMONSQUEEZY_WEBHOOK_SECRET` — payment integration via Lemon Squeezy (Merchant of Record).
+- `LEMONSQUEEZY_VARIANT_STARTER`, `LEMONSQUEEZY_VARIANT_GROWTH`, `LEMONSQUEEZY_VARIANT_PRO` — product variant IDs for Starter ($19), Growth ($49), and Pro ($129) monthly plans.
 
 Before deploying a schema change, apply `npm run db:setup` against the intended Neon branch, then run `npm run ops:check` from an environment with production variables loaded. The checker reports missing configuration and required tables without printing secret values. `/api/health` is the readiness endpoint; it checks required tenant, analytics, rate-limit, and merchant-account tables. Vercel runs `/api/cron/retention` daily at 03:00 UTC to expire sessions and limits, remove expired shared edits, and delete analytics older than 13 months.
 
@@ -46,7 +48,8 @@ Preview deployments must use a non-production Neon branch. Do not run disposable
 
 ## Product limits in this pilot
 
-- Account sessions use secure, HTTP-only cookies and scrypt password hashes. Email verification, account recovery, MFA, team invitations, and billing are not configured yet; add those before opening self-service onboarding broadly.
+- Account sessions use secure, HTTP-only cookies and scrypt password hashes. Email verification, account recovery, MFA, and team invitations are not configured yet; add those before opening open self-service onboarding.
+- Subscriptions are managed via Lemon Squeezy with automated webhook provisioning, customer billing portal links, and tiered discovery quotas (Starter 1,500, Growth 6,000, Pro 25,000 sessions/mo).
 - Dashboard analytics show conversations, product impressions, and product clicks over the last 30 days. Checkout and order attribution are not connected, so the dashboard does not report sales or revenue.
 - Imported catalogues are merchant-owned data. Arieya does not update inventory or checkout; shoppers follow the merchant’s product URL.
 - The demo collection keeps its anonymous three-question limit. Merchant collections use tenant-scoped request limits and do not share demo trial state.

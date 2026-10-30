@@ -1,0 +1,100 @@
+[
+  {
+    "id": "apex-anc700-black",
+    "title": "Pulse ANC-700 Wireless Studio Headphones",
+    "description": "Over-ear wireless headphones with hybrid active noise cancellation, 40-hour battery life, and high-fidelity spatial audio drivers.",
+    "category": "headphones",
+    "price": 249.99,
+    "currency": "USD",
+    "available": true,
+    "url": "https://apextech.store/products/pulse-anc700-headphones",
+    "imageUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=80",
+    "material": "anodized aluminum and memory foam",
+    "color": "matte black",
+    "styles": ["modern", "sleek", "ergonomic", "minimalist"],
+    "occasions": ["travel", "commute", "work", "focus"],
+    "attributes": {
+      "battery_life": "40 hours",
+      "connectivity": "Bluetooth 5.3",
+      "weight": "250g"
+    }
+  },
+  {
+    "id": "apex-aero75-keyboard",
+    "title": "Aero Mechanical Wireless Keyboard 75%",
+    "description": "Compact 75% mechanical keyboard with hot-swappable tactile switches, RGB per-key backlighting, and gasket-mounted acoustic dampening.",
+    "category": "keyboards",
+    "price": 139.00,
+    "currency": "USD",
+    "available": true,
+    "url": "https://apextech.store/products/aero-75-keyboard",
+    "imageUrl": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=1000&q=80",
+    "material": "machined aluminum and PBT keycaps",
+    "color": "lunar grey",
+    "styles": ["compact", "minimalist", "tactile"],
+    "occasions": ["gaming", "work", "programming"],
+    "attributes": {
+      "switches": "Gateron Brown Tactile",
+      "layout": "75% compact",
+      "connectivity": "2.4GHz wireless and Bluetooth"
+    }
+  },
+  {
+    "id": "apex-horizon27-4k",
+    "title": "Horizon Ultra-Slim 4K 27-inch Creative Monitor",
+    "description": "Ultra-thin 4K UHD IPS display featuring 99% DCI-P3 color accuracy, single-cable 90W USB-C charging, and anti-glare micro-textured glass.",
+    "category": "monitors",
+    "price": 549.00,
+    "currency": "USD",
+    "available": true,
+    "url": "https://apextech.store/products/horizon-27-monitor",
+    "imageUrl": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=1000&q=80",
+    "material": "aluminum alloy chassis",
+    "color": "silver",
+    "styles": ["professional", "sleek", "modern"],
+    "occasions": ["work", "creative design", "home office"],
+    "attributes": {
+      "resolution": "3840x2160 UHD",
+      "refresh_rate": "75Hz",
+      "ports": "Thunderbolt 4, HDMI 2.1, DisplayPort 1.4"
+    }
+  },
+  {
+    "id": "apex-beacon-charger",
+    "title": "Beacon MagSafe 3-in-1 Fast Charging Station",
+    "description": "Floating magnetic wireless charging dock for smartphone, smartwatch, and earbuds with solid weighted zinc alloy base.",
+    "category": "chargers",
+    "price": 89.50,
+    "currency": "USD",
+    "available": true,
+    "url": "https://apextech.store/products/beacon-charging-station",
+    "imageUrl": "https://images.unsplash.com/photo-1622445262464-84b1456045b6?auto=format&fit=crop&w=1000&q=80",
+    "material": "zinc alloy and soft-touch silicone",
+    "color": "space grey",
+    "styles": ["minimalist", "streamlined", "compact"],
+    "occasions": ["nightstand", "desk", "travel"],
+    "attributes": {
+      "power_output": "15W fast charge",
+      "compatibility": "MagSafe and Qi"
+    }
+  },
+  {
+    "id": "apex-lumina-lightbar",
+    "title": "Lumina Dynamic Screen Lightbar",
+    "description": "Asymmetric optical monitor lamp with automatic ambient dimming, touch color-temperature controls, and zero screen glare.",
+    "category": "lighting",
+    "price": 65.00,
+    "currency": "USD",
+    "available": true,
+    "url": "https://apextech.store/products/lumina-screen-lightbar",
+    "imageUrl": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1000&q=80",
+    "material": "anodized aluminum",
+    "color": "matte black",
+    "styles": ["minimalist", "modern", "functional"],
+    "occasions": ["night work", "desk setup", "reading"],
+    "attributes": {
+      "color_temp": "2700K - 6500K",
+      "power_source": "USB-C"
+    }
+  }
+]

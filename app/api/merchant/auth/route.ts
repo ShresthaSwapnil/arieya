@@ -1,21 +1,18 @@
 import { NextResponse } from "next/server";
-import { boundedString, jsonError, rateLimit, readJson } from "@/lib/http";
+import { boundedString, jsonError, normalizeStoreUrl, rateLimit, readJson } from "@/lib/http";
 import { createMerchantAccount, loginMerchant, logoutMerchant, merchantSession, switchMerchantStore } from "@/lib/merchant";
 import { clearMerchantCookie, merchantToken, sameOrigin, setMerchantCookie } from "@/lib/merchant-http";
 import { sql } from "@/lib/store";
-
-function validStoreUrl(value: string) {
-  try {
-    const url = new URL(value);
-    return !url.username && !url.password && (url.protocol === "https:" || (url.protocol === "http:" && ["localhost", "127.0.0.1"].includes(url.hostname)));
-  } catch { return false; }
-}
+import { sendWelcomeEmail } from "@/lib/resend";
 
 export async function GET(request: Request) {
   try {
     if (!sql) return jsonError("Merchant accounts need a configured database.", 503);
     const account = await merchantSession(merchantToken(request));
-    return account ? NextResponse.json(account, { headers: { "Cache-Control": "no-store" } }) : jsonError("Sign in to continue.", 401);
+    if (!account) {
+      return NextResponse.json({ authenticated: false }, { headers: { "Cache-Control": "no-store" } });
+    }
+    return NextResponse.json({ authenticated: true, ...account }, { headers: { "Cache-Control": "no-store" } });
   } catch { return jsonError("Merchant account unavailable.", 503); }
 }
 
@@ -30,7 +27,7 @@ export async function POST(request: Request) {
     if (action === "logout") {
       await logoutMerchant(currentToken);
       const response = NextResponse.json({ ok: true });
-      clearMerchantCookie(response);
+      clearMerchantCookie(response, request);
       return response;
     }
     if (action === "switch") {
@@ -48,15 +45,25 @@ export async function POST(request: Request) {
     if (action === "register") {
       const name = boundedString(body.name, 100, 2);
       const storeName = boundedString(body.storeName, 100, 2);
-      const storeUrl = boundedString(body.storeUrl, 500, 8);
-      const currency = boundedString(body.currency, 3, 3)?.toUpperCase() || "GBP";
-      if (!name || !storeName || !storeUrl || !validStoreUrl(storeUrl) || !["GBP", "USD", "EUR"].includes(currency)) return jsonError("Add your name, store name, a secure website URL, and GBP, USD, or EUR.", 400);
+      const storeUrl = normalizeStoreUrl(body.storeUrl);
+      const currency = boundedString(body.currency, 3, 3)?.toUpperCase() || "USD";
+      if (!name || !storeName || !storeUrl || !["GBP", "USD", "EUR"].includes(currency)) return jsonError("Add your name, store name, and store domain (e.g. yourstore.com).", 400);
       token = await createMerchantAccount({ name, email, password, storeName, storeUrl, currency });
     } else {
       token = await loginMerchant(email, password);
       if (!token) return jsonError("Email or password is incorrect.", 401);
     }
     const account = await merchantSession(token);
+    if (action === "register" && account && account.stores?.[0]) {
+      const name = boundedString(body.name, 100, 2) || account.name;
+      const storeName = boundedString(body.storeName, 100, 2) || account.stores[0].name;
+      void sendWelcomeEmail({
+        to: email,
+        name,
+        storeName,
+        publicKey: account.stores[0].publicKey,
+      }).catch((err) => console.error("Welcome email dispatch failed", err));
+    }
     const response = NextResponse.json(account, { headers: { "Cache-Control": "no-store" } });
     setMerchantCookie(response, token, request);
     return response;

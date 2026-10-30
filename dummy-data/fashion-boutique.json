@@ -1,0 +1,144 @@
+[
+  {
+    "id": "maison-linen-blazer",
+    "variantId": "maison-linen-blazer",
+    "title": "Oversized Organic Linen Blazer",
+    "description": "Relaxed-tailoring unstructured blazer crafted from pure European flax linen with horn button closures and notched lapels.",
+    "category": "blazer",
+    "currency": "EUR",
+    "available": true,
+    "material": "100% European linen",
+    "color": "sand beige",
+    "gemstone": null,
+    "styles": [
+      "relaxed",
+      "tailored",
+      "effortless",
+      "chic"
+    ],
+    "occasions": [
+      "summer",
+      "work",
+      "smart casual",
+      "weekend"
+    ],
+    "priority": 0,
+    "imagePosition": "center",
+    "imageUrl": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=1000&q=80",
+    "url": "https://maisonatelier.eu/products/oversized-linen-blazer",
+    "price": 195
+  },
+  {
+    "id": "maison-silk-slip",
+    "variantId": "maison-silk-slip",
+    "title": "Pure Mulberry Silk Slip Dress",
+    "description": "Bias-cut midi dress cut from heavyweight 22-momme mulberry silk with delicate adjustable straps and a fluid, luminous drape.",
+    "category": "dress",
+    "currency": "EUR",
+    "available": true,
+    "material": "100% mulberry silk",
+    "color": "midnight navy",
+    "gemstone": null,
+    "styles": [
+      "minimalist",
+      "elegant",
+      "graceful",
+      "sensual"
+    ],
+    "occasions": [
+      "evening",
+      "cocktail",
+      "anniversary",
+      "date night"
+    ],
+    "priority": 0,
+    "imagePosition": "center",
+    "imageUrl": "https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=1000&q=80",
+    "url": "https://maisonatelier.eu/products/mulberry-silk-slip-dress",
+    "price": 220
+  },
+  {
+    "id": "maison-cashmere-knit",
+    "variantId": "maison-cashmere-knit",
+    "title": "Chunky Ribbed Cashmere Turtleneck",
+    "description": "Luxuriously thick 5-gauge Mongolian cashmere sweater with dropped shoulders and a warm ribbed neck.",
+    "category": "knitwear",
+    "currency": "EUR",
+    "available": true,
+    "material": "100% Grade-A cashmere",
+    "color": "oatmeal heather",
+    "gemstone": null,
+    "styles": [
+      "cozy",
+      "timeless",
+      "understated",
+      "luxurious"
+    ],
+    "occasions": [
+      "winter",
+      "everyday",
+      "weekend",
+      "travel"
+    ],
+    "priority": 0,
+    "imagePosition": "center",
+    "imageUrl": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=1000&q=80",
+    "url": "https://maisonatelier.eu/products/chunky-cashmere-turtleneck",
+    "price": 310
+  },
+  {
+    "id": "maison-wool-trousers",
+    "variantId": "maison-wool-trousers",
+    "title": "Pleated High-Waisted Wool Trousers",
+    "description": "Wide-leg front-pleat trousers crafted from lightweight tropical virgin wool with concealed waist clasp and deep side pockets.",
+    "category": "trousers",
+    "currency": "EUR",
+    "available": true,
+    "material": "100% virgin wool",
+    "color": "charcoal grey",
+    "gemstone": null,
+    "styles": [
+      "tailored",
+      "modern",
+      "structured"
+    ],
+    "occasions": [
+      "office",
+      "formal",
+      "dinner"
+    ],
+    "priority": 0,
+    "imagePosition": "center",
+    "imageUrl": "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=80",
+    "url": "https://maisonatelier.eu/products/pleated-high-waisted-trousers",
+    "price": 175
+  },
+  {
+    "id": "maison-cotton-trench",
+    "variantId": "maison-cotton-trench",
+    "title": "Modern Minimalist Storm Trench Coat",
+    "description": "Double-breasted water-repellent gabardine cotton trench coat with detachable storm flap and horn buckles.",
+    "category": "outerwear",
+    "currency": "EUR",
+    "available": true,
+    "material": "100% organic cotton gabardine",
+    "color": "warm olive",
+    "gemstone": null,
+    "styles": [
+      "classic",
+      "refined",
+      "understated"
+    ],
+    "occasions": [
+      "rainy day",
+      "commute",
+      "travel",
+      "everyday"
+    ],
+    "priority": 0,
+    "imagePosition": "center",
+    "imageUrl": "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=1000&q=80",
+    "url": "https://maisonatelier.eu/products/minimalist-storm-trench",
+    "price": 385
+  }
+]

@@ -46,6 +46,7 @@ export function Stylist({
   fromEdit,
   demoCategory,
   demoCatalogName,
+  isEmbed,
 }: {
   tenant: string;
   merchantName: string;
@@ -56,6 +57,7 @@ export function Stylist({
   fromEdit?: string;
   demoCategory?: DemoCatalogId;
   demoCatalogName?: string;
+  isEmbed?: boolean;
 }) {
   const [remaining, setRemaining] = useState<number | null>(null);
   const [ready, setReady] = useState(false);
@@ -90,8 +92,11 @@ export function Stylist({
       if (!response.ok) throw new Error(data.error);
       setRemaining(data.remaining); setCatalogCount(data.productCount); setCurrency(data.currency);
       setReady(true);
+      if (isEmbed) {
+        window.parent.postMessage('arieya:ready', '*');
+      }
     }).catch((error) => setNotice(error.message || "Could not open this collection. Reload to try again."));
-  }, [demoCategory, tenant]);
+  }, [demoCategory, tenant, isEmbed]);
 
   // Initialize session and restore or initialize product view
   useEffect(() => {
@@ -210,6 +215,9 @@ export function Stylist({
       }
       const result = data as ChatResult;
       setRemaining(result.remaining ?? null);
+      if (isEmbed) {
+        window.parent.postMessage(`arieya:recommendation::${JSON.stringify({ productCount: result.products.length, status: result.status })}`, '*');
+      }
 
       const assistantMessage: Message = {
         id: crypto.randomUUID(),
@@ -307,6 +315,24 @@ export function Stylist({
 
   function trackEvent(name: EventName, productId?: string) {
     if (!sessionId) return;
+    if (isEmbed && name === "product_clicked" && productId) {
+      // Find the product in history
+      let product = catalogueProducts?.find((p) => p.id === productId);
+      if (!product) {
+        for (const msg of messages) {
+          if (msg.result?.products) {
+            const found = msg.result.products.find((p) => p.id === productId);
+            if (found) {
+              product = found;
+              break;
+            }
+          }
+        }
+      }
+      if (product) {
+        window.parent.postMessage(`arieya:product-click::${JSON.stringify({ url: product.url, title: product.title, price: product.priceMinor, currency: product.currency })}`, '*');
+      }
+    }
     void fetch("/api/v1/events", {
       method: "POST",
       headers: { "content-type": "application/json" },

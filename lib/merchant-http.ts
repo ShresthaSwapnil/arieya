@@ -17,6 +17,15 @@ export function setMerchantCookie(response: NextResponse, token: string, request
   });
 }
 
-export function clearMerchantCookie(response: NextResponse) {
-  response.cookies.set(merchantCookieName, "", { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", path: "/", maxAge: 0 });
+export function clearMerchantCookie(response: NextResponse, request?: Request) {
+  const isHttps = request ? new URL(request.url).protocol === "https:" : false;
+  response.cookies.delete({ name: merchantCookieName, path: "/" });
+  response.cookies.set(merchantCookieName, "", {
+    httpOnly: true,
+    secure: isHttps,
+    sameSite: "strict",
+    path: "/",
+    maxAge: 0,
+    expires: new Date(0),
+  });
 }

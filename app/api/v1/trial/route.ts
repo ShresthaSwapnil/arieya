@@ -15,6 +15,22 @@ export async function GET(request: Request) {
     if (tenant.id !== "tenant_demo") {
       if (!await rateLimit(request, `store-preview:${tenant.id}`, 60)) return jsonError("Please try again in a minute.", 429);
       const catalog = await getCatalog(tenant.id);
+      if (tenant.status === "preview") {
+        let trial = await getTrial(request);
+        let token: string | undefined;
+        if (!trial) {
+          ({ trial, token } = await createTrial());
+        }
+        const remaining = Math.max(0, 3 - (trial?.questions_used ?? 0));
+        const res = NextResponse.json({
+          remaining,
+          previewMode: true,
+          productCount: catalog.length,
+          currency: catalog[0]?.currency || tenant.currency,
+        }, { headers: { "Cache-Control": "no-store" } });
+        if (token) res.cookies.set("edita-trial", token, { httpOnly: true, sameSite: "lax", secure: new URL(request.url).protocol === "https:", path: "/", maxAge: 30 * 86400 });
+        return res;
+      }
       return NextResponse.json({ remaining: null, productCount: catalog.length, currency: catalog[0]?.currency || tenant.currency }, { headers: { "Cache-Control": "no-store" } });
     }
     let trial = await getTrial(request);

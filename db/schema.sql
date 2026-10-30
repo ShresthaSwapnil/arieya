@@ -16,6 +16,18 @@ ALTER TABLE tenants ADD COLUMN IF NOT EXISTS deletion_scheduled_at timestamptz;
 ALTER TABLE tenants ADD COLUMN IF NOT EXISTS name text NOT NULL DEFAULT 'Online store';
 ALTER TABLE tenants ADD COLUMN IF NOT EXISTS store_url text;
 ALTER TABLE tenants ADD COLUMN IF NOT EXISTS currency text NOT NULL DEFAULT 'GBP';
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS plan text NOT NULL DEFAULT 'founding';
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS session_allowance integer NOT NULL DEFAULT 500;
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS subscription_id text;
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS customer_id text;
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS variant_id text;
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS subscription_status text NOT NULL DEFAULT 'preview';
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS renews_at timestamptz;
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS ends_at timestamptz;
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS trial_ends_at timestamptz;
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS card_brand text;
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS card_last_four text;
+ALTER TABLE tenants ADD COLUMN IF NOT EXISTS billing_portal_url text;
 
 CREATE TABLE IF NOT EXISTS merchant_users (
   id text PRIMARY KEY,
@@ -137,3 +149,17 @@ CREATE TABLE IF NOT EXISTS request_limits (
 CREATE INDEX IF NOT EXISTS idx_request_limits_expiry ON request_limits (reset_at);
 ALTER TABLE shareable_edits ADD COLUMN IF NOT EXISTS catalog_snapshot jsonb;
 CREATE INDEX IF NOT EXISTS idx_merchant_sessions_expiry ON merchant_sessions (expires_at);
+
+CREATE TABLE IF NOT EXISTS billing_events (
+  id text PRIMARY KEY,
+  tenant_id text REFERENCES tenants(id) ON DELETE CASCADE,
+  event_name text NOT NULL,
+  lemon_squeezy_id text,
+  payload jsonb NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_tenants_subscription_id ON tenants (subscription_id);
+CREATE INDEX IF NOT EXISTS idx_tenants_customer_id ON tenants (customer_id);
+CREATE INDEX IF NOT EXISTS idx_billing_events_tenant_created ON billing_events (tenant_id, created_at);
+

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalogue>
+  <product>
+    <id>maison-linen-blazer</id>
+    <title>Oversized Organic Linen Blazer</title>
+    <description>Relaxed-tailoring unstructured blazer crafted from pure European flax linen with horn button closures and notched lapels.</description>
+    <category>blazer</category>
+    <price>195.00</price>
+    <currency>EUR</currency>
+    <available>true</available>
+    <url>https://maisonatelier.eu/products/oversized-linen-blazer</url>
+    <imageUrl>https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=1000&q=80</imageUrl>
+    <material>100% European linen</material>
+    <color>sand beige</color>
+    <styles>relaxed|tailored|effortless|chic</styles>
+    <occasions>summer|work|smart casual|weekend</occasions>
+  </product>
+  <product>
+    <id>maison-silk-slip</id>
+    <title>Pure Mulberry Silk Slip Dress</title>
+    <description>Bias-cut midi dress cut from heavyweight 22-momme mulberry silk with delicate adjustable straps and a fluid, luminous drape.</description>
+    <category>dress</category>
+    <price>220.00</price>
+    <currency>EUR</currency>
+    <available>true</available>
+    <url>https://maisonatelier.eu/products/mulberry-silk-slip-dress</url>
+    <imageUrl>https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=1000&q=80</imageUrl>
+    <material>100% mulberry silk</material>
+    <color>midnight navy</color>
+    <styles>minimalist|elegant|graceful|sensual</styles>
+    <occasions>evening|cocktail|anniversary|date night</occasions>
+  </product>
+  <product>
+    <id>maison-cashmere-knit</id>
+    <title>Chunky Ribbed Cashmere Turtleneck</title>
+    <description>Luxuriously thick 5-gauge Mongolian cashmere sweater with dropped shoulders and a warm ribbed neck.</description>
+    <category>knitwear</category>
+    <price>310.00</price>
+    <currency>EUR</currency>
+    <available>true</available>
+    <url>https://maisonatelier.eu/products/chunky-cashmere-turtleneck</url>
+    <imageUrl>https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=1000&q=80</imageUrl>
+    <material>100% Grade-A cashmere</material>
+    <color>oatmeal heather</color>
+    <styles>cozy|timeless|understated|luxurious</styles>
+    <occasions>winter|everyday|weekend|travel</occasions>
+  </product>
+  <product>
+    <id>maison-wool-trousers</id>
+    <title>Pleated High-Waisted Wool Trousers</title>
+    <description>Wide-leg front-pleat trousers crafted from lightweight tropical virgin wool with concealed waist clasp and deep side pockets.</description>
+    <category>trousers</category>
+    <price>175.00</price>
+    <currency>EUR</currency>
+    <available>true</available>
+    <url>https://maisonatelier.eu/products/pleated-high-waisted-trousers</url>
+    <imageUrl>https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=80</imageUrl>
+    <material>100% virgin wool</material>
+    <color>charcoal grey</color>
+    <styles>tailored|modern|structured</styles>
+    <occasions>office|formal|dinner</occasions>
+  </product>
+  <product>
+    <id>maison-cotton-trench</id>
+    <title>Modern Minimalist Storm Trench Coat</title>
+    <description>Double-breasted water-repellent gabardine cotton trench coat with detachable storm flap and horn buckles.</description>
+    <category>outerwear</category>
+    <price>385.00</price>
+    <currency>EUR</currency>
+    <available>true</available>
+    <url>https://maisonatelier.eu/products/minimalist-storm-trench</url>
+    <imageUrl>https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=1000&q=80</imageUrl>
+    <material>100% organic cotton gabardine</material>
+    <color>warm olive</color>
+    <styles>classic|refined|understated</styles>
+    <occasions>rainy day|commute|travel|everyday</occasions>
+  </product>
+</catalogue>

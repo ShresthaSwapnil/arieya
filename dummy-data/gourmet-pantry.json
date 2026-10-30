@@ -1,0 +1,161 @@
+[
+  {
+    "id": "pantry-coffee-yirgacheffe",
+    "variantId": "pantry-coffee-yirgacheffe",
+    "title": "Ethiopian Yirgacheffe Single-Origin Whole Bean Coffee (250g)",
+    "description": "Heirloom natural processed beans from smallholder cooperative farms with tasting notes of jasmine, bergamot, and ripe peach.",
+    "category": "coffee",
+    "currency": "GBP",
+    "available": true,
+    "material": "Arabica coffee beans",
+    "color": "medium roast",
+    "gemstone": null,
+    "styles": [
+      "artisanal",
+      "floral",
+      "fruity",
+      "single-origin"
+    ],
+    "occasions": [
+      "morning ritual",
+      "everyday",
+      "gift"
+    ],
+    "priority": 0,
+    "imagePosition": "center",
+    "attributes": {
+      "roast_level": "medium-light",
+      "origin": "Yirgacheffe, Ethiopia",
+      "process": "natural"
+    },
+    "imageUrl": "https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=1000&q=80",
+    "url": "https://harvesthearth.co.uk/products/ethiopian-yirgacheffe-beans",
+    "price": 14.5
+  },
+  {
+    "id": "pantry-matcha-uji",
+    "variantId": "pantry-matcha-uji",
+    "title": "Ceremonial Grade Uji Matcha (30g Tin)",
+    "description": "First-harvest stone-ground green tea leaves from Kyoto, Japan with intense umami sweetness and vivid jade froth.",
+    "category": "tea",
+    "currency": "GBP",
+    "available": true,
+    "material": "100% Tencha green tea",
+    "color": "vibrant jade",
+    "gemstone": null,
+    "styles": [
+      "traditional",
+      "mindful",
+      "energizing"
+    ],
+    "occasions": [
+      "morning ritual",
+      "meditation",
+      "afternoon break"
+    ],
+    "priority": 0,
+    "imagePosition": "center",
+    "attributes": {
+      "grade": "ceremonial",
+      "harvest": "first flush",
+      "origin": "Kyoto, Japan"
+    },
+    "imageUrl": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1000&q=80",
+    "url": "https://harvesthearth.co.uk/products/ceremonial-uji-matcha",
+    "price": 28
+  },
+  {
+    "id": "pantry-olive-oil-estate",
+    "variantId": "pantry-olive-oil-estate",
+    "title": "Single-Estate Cold-Pressed Extra Virgin Olive Oil (500ml)",
+    "description": "Early-harvest Koroneiki olives cold-pressed within 4 hours in southern Peloponnese with peppery finish and high polyphenols.",
+    "category": "oils & condiments",
+    "currency": "GBP",
+    "available": true,
+    "material": "Koroneiki olives",
+    "color": "golden green",
+    "gemstone": null,
+    "styles": [
+      "cold-pressed",
+      "organic",
+      "robust"
+    ],
+    "occasions": [
+      "cooking",
+      "entertaining",
+      "dinner party"
+    ],
+    "priority": 0,
+    "imagePosition": "center",
+    "attributes": {
+      "acidity": "< 0.2%",
+      "harvest": "November 2025",
+      "origin": "Peloponnese, Greece"
+    },
+    "imageUrl": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=1000&q=80",
+    "url": "https://harvesthearth.co.uk/products/estate-extra-virgin-olive-oil",
+    "price": 22.5
+  },
+  {
+    "id": "pantry-raw-honey",
+    "variantId": "pantry-raw-honey",
+    "title": "Wildflower Mountain Raw Honey (350g)",
+    "description": "Unpasteurized, coarse-filtered wildflower honey harvested from pristine alpine meadows with delicate herbal floral notes.",
+    "category": "preserves & honey",
+    "currency": "GBP",
+    "available": true,
+    "material": "100% raw honey",
+    "color": "golden amber",
+    "gemstone": null,
+    "styles": [
+      "pure",
+      "unfiltered",
+      "natural"
+    ],
+    "occasions": [
+      "breakfast",
+      "tea time",
+      "gift"
+    ],
+    "priority": 0,
+    "imagePosition": "center",
+    "attributes": {
+      "state": "raw unpasteurized",
+      "origin": "Scottish Highlands"
+    },
+    "imageUrl": "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=1000&q=80",
+    "url": "https://harvesthearth.co.uk/products/wildflower-mountain-raw-honey",
+    "price": 11
+  },
+  {
+    "id": "pantry-dark-chocolate-85",
+    "variantId": "pantry-dark-chocolate-85",
+    "title": "Single-Origin Madagascan 85% Dark Chocolate Bar (70g)",
+    "description": "Direct-trade Criollo cocoa beans gently roasted with organic cane sugar, featuring bold red berry acidity and smoky undertones.",
+    "category": "chocolate",
+    "currency": "GBP",
+    "available": true,
+    "material": "organic cocoa and cane sugar",
+    "color": "deep mahogany",
+    "gemstone": null,
+    "styles": [
+      "bean-to-bar",
+      "intense",
+      "fruity"
+    ],
+    "occasions": [
+      "evening treat",
+      "coffee pairing",
+      "gift"
+    ],
+    "priority": 0,
+    "imagePosition": "center",
+    "attributes": {
+      "cacao_percentage": "85%",
+      "origin": "Sambirano Valley, Madagascar"
+    },
+    "imageUrl": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1000&q=80",
+    "url": "https://harvesthearth.co.uk/products/madagascan-85-dark-chocolate",
+    "price": 6.5
+  }
+]

@@ -51,9 +51,14 @@ export async function POST(request: Request) {
       return jsonError("Too many requests", 429);
     }
 
-    const trial = tenant.id === "tenant_demo" ? await getTrial(request) : null;
+    const isPreviewStore = tenant.id === "tenant_demo" || tenant.status === "preview";
+    const trial = isPreviewStore ? await getTrial(request) : null;
     if (tenant.id === "tenant_demo" && !trial) return jsonError("Open the stylist to start your three-question trial.", 401);
-    if (trial && trial.questions_used >= 3) return jsonError("You’ve used your three trial questions. Thanks for trying Arieya!", 429);
+    if (trial && trial.questions_used >= 3) {
+      return jsonError(tenant.status === "preview"
+        ? "You’ve used your 3 preview test questions! Choose a plan in Merchant Studio to unlock unlimited discovery."
+        : "You’ve used your three trial questions. Thanks for trying Arieya!", 429);
+    }
     const from = typeof body.fromEdit === "string" ? await getEdit(body.fromEdit) : null;
     if (body.fromEdit && (!from || from.deletedAt || new Date(from.expiresAt) <= new Date())) return jsonError("This shared edit is no longer available.", 404);
     const demoCatalog = tenant.id === "tenant_demo" ? getDemoCatalog(body.demoCategory) : null;

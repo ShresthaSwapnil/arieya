@@ -113,3 +113,82 @@ test("trial quota stays atomic under concurrent requests and catalogues stay iso
   const limited = await Promise.all(Array.from({ length: 12 }, () => consumeLimit(`test-${first.token}`, 3)));
   assert.equal(limited.filter(Boolean).length, 3);
 });
+
+test("category generalization dynamically derives aliases and matches non-jewellery catalogues", async () => {
+  const { DEMO_CATALOGS } = await import("../lib/demo-catalogs.ts");
+  const clothing = DEMO_CATALOGS.find((c) => c.id === "clothing")!.products;
+
+  // Test singular and plural matching for dynamic categories
+  const shirtResult = recommend("A comfortable shirt under £100", clothing);
+  assert.equal(shirtResult.status, "exact");
+  assert.ok(shirtResult.products.some((p) => p.category === "shirt"));
+
+  const dressResult = recommend("Show me dresses under £200", clothing);
+  assert.equal(dressResult.status, "exact");
+  assert.ok(dressResult.products.some((p) => p.category === "dress"));
+
+  const knitResult = recommend("A warm knitwear layer", clothing);
+  assert.equal(knitResult.status, "exact");
+  assert.ok(knitResult.products.some((p) => p.category === "knitwear"));
+});
+
+test("catalogue with diamond or platinum matches when present in products", () => {
+  const customCatalog = [
+    {
+      ...CATALOG[0],
+      id: "platinum-diamond-solitaire",
+      title: "Platinum Diamond Solitaire",
+      category: "ring",
+      material: "platinum",
+      gemstone: "diamond",
+      priceMinor: 195000,
+      currency: "GBP",
+      available: true,
+    },
+  ];
+
+  // When catalogue actually has platinum and diamond, it should match, not reject
+  const result = recommend("A platinum diamond ring", customCatalog);
+  assert.equal(result.status, "exact");
+  assert.equal(result.products.length, 1);
+  assert.equal(result.products[0].id, "platinum-diamond-solitaire");
+  assert.equal(result.products[0].material, "platinum");
+  assert.equal(result.products[0].gemstone, "diamond");
+
+  // But for the default CATALOG (which has no platinum), it should return no_match
+  const defaultResult = recommend("A platinum ring", CATALOG);
+  assert.equal(defaultResult.status, "no_match");
+});
+
+test("normalizeStoreUrl accepts bare domains and convertCatalogFile normalizes currencies and bare URLs", async () => {
+  const { normalizeStoreUrl, convertCatalogFile } = await import("../lib/catalog-format.ts");
+
+  assert.equal(normalizeStoreUrl("abc.com"), "https://abc.com");
+  assert.equal(normalizeStoreUrl("www.abc.com/"), "https://www.abc.com");
+  assert.equal(normalizeStoreUrl("https://shop.abc.com/store"), "https://shop.abc.com/store");
+  assert.equal(normalizeStoreUrl("not a domain"), null);
+
+  const messyCsv = [
+    "title,price,currency,url,brand,color",
+    "Gold Hoop Earrings,£84,GBP,abc.com/hoops,Atelier,gold",
+    "Silver Pendant,120.50,CAD,,Atelier,silver",
+  ].join("\n");
+
+  const converted = convertCatalogFile(messyCsv, "csv", {
+    defaultCurrency: "USD",
+    storeUrl: "https://abc.com",
+  });
+
+  assert.equal(converted.products.length, 2);
+  assert.equal(converted.products[0].currency, "USD");
+  assert.equal(converted.products[0].priceMinor, 8400);
+  assert.equal(converted.products[0].url, "https://abc.com/hoops");
+  assert.equal(converted.products[0].attributes?.brand, "Atelier");
+  assert.equal(converted.products[1].currency, "USD");
+  assert.equal(converted.products[1].priceMinor, 12050);
+  assert.ok(converted.products[1].url.startsWith("https://abc.com/products/"));
+  assert.ok(converted.customFields.includes("brand"));
+  assert.ok(converted.customFields.includes("color"));
+});
+
+

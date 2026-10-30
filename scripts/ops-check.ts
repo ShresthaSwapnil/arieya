@@ -32,18 +32,41 @@ if (databaseUrl) {
   let db: ReturnType<typeof postgres> | undefined;
   try {
     db = postgres(databaseUrl, { prepare: false, max: 1, connect_timeout: 10, ssl: process.env.DATABASE_SSL === "false" ? false : "require" });
-    const [schema] = await db<{ tenants: string | null; merchant_users: string | null; merchant_memberships: string | null; merchant_sessions: string | null; catalog_products: string | null; analytics_events: string | null }[]>`
+    const [schema] = await db<{ tenants: string | null; merchant_users: string | null; merchant_memberships: string | null; merchant_sessions: string | null; catalog_products: string | null; analytics_events: string | null; billing_events: string | null }[]>`
       SELECT to_regclass('public.tenants')::text AS tenants,
         to_regclass('public.merchant_users')::text AS merchant_users,
         to_regclass('public.merchant_memberships')::text AS merchant_memberships,
         to_regclass('public.merchant_sessions')::text AS merchant_sessions,
         to_regclass('public.catalog_products')::text AS catalog_products,
-        to_regclass('public.analytics_events')::text AS analytics_events`;
+        to_regclass('public.analytics_events')::text AS analytics_events,
+        to_regclass('public.billing_events')::text AS billing_events`;
     for (const [name, relation] of Object.entries(schema || {})) if (!relation) issues.push(`Database schema is missing ${name}`);
-    console.log("Database reachable; required tenant tables checked.");
+    console.log("Database reachable; required tenant & billing tables checked.");
   } catch {
     issues.push("Database connection failed; check the pooled and direct connection strings");
   } finally { await db?.end(); }
+}
+
+if (!process.env.LEMONSQUEEZY_API_KEY || !process.env.LEMONSQUEEZY_STORE_ID || !process.env.LEMONSQUEEZY_WEBHOOK_SECRET) {
+  console.warn("NOTICE: Lemon Squeezy billing environment variables are not fully set (simulation mode will be active for checkouts).");
+}
+
+if (!process.env.RESEND_API_KEY) {
+  console.warn("NOTICE: RESEND_API_KEY is not set (emails will be simulated in console).");
+} else {
+  console.log("Resend email delivery configured.");
+}
+
+if (!process.env.SENTRY_DSN && !process.env.NEXT_PUBLIC_SENTRY_DSN) {
+  console.warn("NOTICE: Sentry DSN is not set (exceptions will log to console without remote ingestion).");
+} else {
+  console.log("Sentry error monitoring configured.");
+}
+
+if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+  console.warn("NOTICE: Upstash Redis is not set (rate limiting will fall back to PostgreSQL/in-memory limiter).");
+} else {
+  console.log("Upstash Redis distributed rate limiting configured.");
 }
 
 if (issues.length) {
